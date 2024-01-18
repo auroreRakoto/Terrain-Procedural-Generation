@@ -62,7 +62,7 @@ public class MeshGenerator
                     Debug.Log("cell");
                 }*/
                 BiomeParameters blendedParams = null;
-                blendedParams = biomManager.BlendBiomeParameters(nearbyCells, currentVector, biomManager);
+                //blendedParams = biomManager.BlendBiomeParameters(nearbyCells, currentVector, biomManager);
 
 /*                if (blendedParams != null)
                     blendedParams = null;*/
@@ -70,8 +70,8 @@ public class MeshGenerator
                 if (blendedParams != null)
                 {
                     Debug.Log("interpolated");
-                    int mapX = Mathf.Clamp(x, 0, blendedParams.noiseMap.Width - 1);
-                    int mapY = Mathf.Clamp(y, 0, blendedParams.noiseMap.Height - 1);
+                    int mapX = Mathf.Clamp(x, 0, blendedParams.noiseMap.width - 1);
+                    int mapY = Mathf.Clamp(y, 0, blendedParams.noiseMap.height - 1);
 
                     noiseValue = blendedParams.scale * blendedParams.noiseMap.Values[mapX, mapY];
                 }
@@ -83,6 +83,8 @@ public class MeshGenerator
                     BiomeParameters biomeParams = biomManager.GetBiomeParameters(biomeType);
 
                     noiseValue = biomeParams.noiseMap.Values[x, y] * biomeParams.scale;
+                    Debug.Log("in Mesh Generator Map : " + noiseValue);
+                    Debug.Log("biom param : " + biomeParams.noiseMap.Values[x, y]);
                 }
                 meshData.vertices[vertexIndex] = new Vector3(topLeftX + x, noiseValue, topLeftZ - y);
 

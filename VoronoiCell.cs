@@ -11,7 +11,6 @@ public class VoronoiCell
     public Vector2 Center { get; set; }
     public BiomeType Biome { get; set; }
     public bool IsBorderCell { get; set; }
-    public Dictionary<string, float> InterpolatedFeatures { get; set; }
+    //public Dictionary<string, float> InterpolatedFeatures { get; set; }
 
-    // mettre des propriétés
 }
