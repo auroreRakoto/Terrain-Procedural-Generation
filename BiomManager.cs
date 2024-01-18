@@ -166,16 +166,11 @@ public class BiomManager
             Debug.LogError("BlendBiomeParameters: nearbyCells is null");
             return null; // Or handle this case appropriately
         }
-
-        if (biomManager == null)
-        {
-            Debug.LogError("BlendBiomeParameters: biomManager is null");
-            return null; // Or handle this case appropriately
-        }
+        
 
         BiomeParameters blendedParams = new BiomeParameters();
         float totalWeight = 0;
-
+        
         // Initialize accumulators for each parameter
         float totalScale = 0;
         float totalLacunarity = 0;
@@ -194,9 +189,9 @@ public class BiomManager
             totalLacunarity += cellParams.lacunarity * weight;
             totalOctave += Mathf.RoundToInt(cellParams.octave * weight);
 
-
-            int mapX = Mathf.Clamp((int)point.x, 0, blendedParams.noiseMap.Width - 1);
-            int mapY = Mathf.Clamp((int)point.y, 0, blendedParams.noiseMap.Height - 1);
+            
+            int mapX = Mathf.Clamp((int)point.x, 0, cellParams.noiseMap.Width - 1);
+            int mapY = Mathf.Clamp((int)point.y, 0, cellParams.noiseMap.Height - 1);
 
             // Accumulate weighted noise values
             float noiseValue = cellParams.noiseMap.Values[mapX, mapY] * weight;
@@ -204,13 +199,11 @@ public class BiomManager
 
             totalWeight += weight;
         }
-
         // Normalize blended parameters
         blendedParams.scale = totalScale / totalWeight;
         blendedParams.lacunarity = totalLacunarity / totalWeight;
         blendedParams.octave = Mathf.RoundToInt((float)totalOctave / totalWeight);
         blendedParams.noiseMap = new NoiseMap(100, 100).GenerateNoiseMap(blendedParams.scale, blendedParams.offsetX, blendedParams.offsetY);
-
         return blendedParams;
     }
 

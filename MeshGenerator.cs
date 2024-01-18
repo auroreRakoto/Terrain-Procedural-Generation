@@ -53,11 +53,23 @@ public class MeshGenerator
                 float noiseValue;
                 float searchRadius = 20f;
                 List<VoronoiCell> nearbyCells = voronoiDiagram.FindNearbyCells(voronoiDiagram.Cells, currentVector, searchRadius);
-                //BiomeParameters blendedParams = biomManager.BlendBiomeParameters(nearbyCells, currentVector, biomManager);
+                /*if (nearbyCells == null)
+                {
+                    Debug.Log("cells issue");
+                }*/
+                /*foreach (var cell in nearbyCells)
+                {
+                    Debug.Log("cell");
+                }*/
                 BiomeParameters blendedParams = null;
+                blendedParams = biomManager.BlendBiomeParameters(nearbyCells, currentVector, biomManager);
+
+/*                if (blendedParams != null)
+                    blendedParams = null;*/
 
                 if (blendedParams != null)
                 {
+                    Debug.Log("interpolated");
                     int mapX = Mathf.Clamp(x, 0, blendedParams.noiseMap.Width - 1);
                     int mapY = Mathf.Clamp(y, 0, blendedParams.noiseMap.Height - 1);
 
