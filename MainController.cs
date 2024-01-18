@@ -6,8 +6,8 @@ using System.Linq;
 
 public class MainController : MonoBehaviour
 {
-    [SerializeField] private static int size = 100;
-    public int numpoints = 10;
+    [SerializeField] private static int size = 200;
+    public int numberOfPoints = 50;
     public Vector2 rangeX = new Vector2(0, size);
     public Vector2 rangeY = new Vector2(0, size);
 
@@ -23,7 +23,7 @@ public class MainController : MonoBehaviour
     {
         // Initialize your VoronoiDiagram
         voronoiDiagram = new VoronoiDiagram();
-        biomManager = new BiomManager();
+        biomManager = new BiomManager(size);
         if (biomManager == null)
         {
             Debug.LogError("MainController: biomManager is not initialized");
@@ -39,12 +39,11 @@ public class MainController : MonoBehaviour
         textureGenerator = new TextureGenerator(voronoiDiagram, biomManager);
 
         // Define the size of your diagram area (example: 100x100 units)
-        Vector2 size = new Vector2(100, 100);
+        //Vector2 size = new Vector2(100, 100);
         // Define the number of points/cells you want in your diagram
-        int numberOfPoints = 50;
 
         // Call the GenerateDiagram method to create the Voronoi diagram
-        voronoiDiagram.GenerateDiagram(size, numberOfPoints);
+        voronoiDiagram.GenerateDiagram(new Vector2(size, size), numberOfPoints);
         biomManager.AssignBiomeToCells(voronoiDiagram.Cells);
 
         // After generating the diagram, you can now work with the cells
@@ -54,9 +53,9 @@ public class MainController : MonoBehaviour
         {
             centerPoints.Add(cell.Center);
         }
-        MeshData meshData = MeshGenerator.GenerateTerrainMesh(100, biomManager, voronoiDiagram);
+        MeshData meshData = MeshGenerator.GenerateTerrainMesh(size, biomManager, voronoiDiagram);
         meshFilter.mesh = meshData.CreateMesh();
-        meshRenderer.material.mainTexture = textureGenerator.GenerateTexture(100, 100, voronoiDiagram.Cells);
+        meshRenderer.material.mainTexture = textureGenerator.GenerateTexture(size, size, voronoiDiagram.Cells);
     }
 
     // Update is called once per frame
